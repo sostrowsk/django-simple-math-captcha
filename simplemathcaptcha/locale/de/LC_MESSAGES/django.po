@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-30 18:13-0600\n"
 "PO-Revision-Date: 2020-07-28 08:11+0200\n"
-"Last-Translator: Luis Zárate <luis.zarate@solvosoft.com>\n"
+"Last-Translator: Stefan Ostrowski <ostrowsk@gmail.com>\n"
 "Language-Team: LANGUAGE <luis.zarate@solvosoft.com>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -35,9 +35,3 @@ msgstr "%(params)s müssen weggelassen werden, wenn das Widget für %(name)s ber
 #, python-format
 msgid "What is %(num1)i %(operator)s %(num2)i? "
 msgstr "Was ist %(num1)i %(operator)s %(num2)i? "
-
-#~ msgid "MathCaptchaWidget requires positive integers for start_int and end_int."
-#~ msgstr "MathCaptchaWidget requiere un número entero positivo para start_int and end_int."
-
-#~ msgid "MathCaptchaWidget requires end_int be greater than start_int."
-#~ msgstr "MathCaptchaWidget end_int debe ser mayor que start_int."
