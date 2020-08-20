@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: simplecaptcha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-30 18:13-0600\n"
-"PO-Revision-Date: 2020-07-28 08:11+0200\n"
+"PO-Revision-Date: 2020-08-20 14:24+0200\n"
 "Last-Translator: Stefan Ostrowski <ostrowsk@gmail.com>\n"
 "Language-Team: LANGUAGE <luis.zarate@solvosoft.com>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: fields.py:14
 msgid "Please check your math and try again."
@@ -33,5 +33,5 @@ msgstr "%(params)s müssen weggelassen werden, wenn das Widget für %(name)s ber
 
 #: widgets.py:17
 #, python-format
-msgid "What is %(num1)i %(operator)s %(num2)i? "
-msgstr "Was ist %(num1)i %(operator)s %(num2)i? "
+msgid "What is %(num1)i %(operator)s %(num2)i ?"
+msgstr "Was ist %(num1)i %(operator)s %(num2)i ?"

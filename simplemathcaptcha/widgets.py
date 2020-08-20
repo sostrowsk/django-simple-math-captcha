@@ -1,8 +1,14 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 
+import base64
+import urllib
+from io import BytesIO
+import random
+
+from PIL import Image, ImageDraw, ImageFont
+
 from django import forms
-from django.template.defaultfilters import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from .utils import hash_answer, get_operator, get_numbers, calculate
@@ -16,7 +22,7 @@ class MathCaptchaWidget(forms.MultiWidget):
         self.start_int, self.end_int = self.verify_numbers(start_int, end_int)
         self.question_class = question_class or 'captcha-question'
         self.question_tmpl = (
-            question_tmpl or _('What is %(num1)i %(operator)s %(num2)i? '))
+            question_tmpl or _('What is %(num1)i %(operator)s %(num2)i ?'))
         self.question_html = None
         widget_attrs = {'size': '5'}
         widget_attrs.update(attrs or {})
@@ -62,14 +68,47 @@ class MathCaptchaWidget(forms.MultiWidget):
 
     def set_question(self, x, y, operator):
         # make multiplication operator more human-readable
-        operator_for_label = '&times;' if operator == '*' else operator
         question = self.question_tmpl % {
             'num1': x,
-            'operator': operator_for_label,
+            'operator': operator,
             'num2': y
         }
 
-        self.question_html = mark_safe(question)
+        img = Image.new('RGB', (1, 1), (255, 255, 255))
+        draw = ImageDraw.Draw(img)
+        text_width, text_height = draw.textsize(question)
+        text_width += 2
+        img_text = Image.new('RGB', (text_width, text_height), (255, 255, 255))
+        draw_text = ImageDraw.Draw(img_text)
+        draw_text.text((1, 0), question, fill=(0, 0, 0))
+        img_noise = Image.new('RGB', (text_width, text_height), (255, 255, 255))
+        draw_noise = ImageDraw.Draw(img_noise)
+        for count in range(1, 200):
+            draw_noise.point(
+                (
+                    random.randint(0,text_width),
+                    random.randint(0,text_height)
+                ),
+                fill=(random.randint(0,255),random.randint(0,255),random.randint(0,255))
+            )
+        for count in range(1, 20):
+            draw_noise.line(
+                (
+                    random.randint(0,text_width),
+                    random.randint(0,text_height),
+                    random.randint(0,text_width),
+                    random.randint(0,text_height)
+                ),
+                fill=(random.randint(0,255),random.randint(0,255),random.randint(0,255))
+            )
+        img = Image.blend(img_text, img_noise, 0.2)
+        img = img.resize((round(text_width*1.5), round(text_height*1.5)), Image.ANTIALIAS)
+        file = BytesIO(img.tobytes())
+        img.save(file, format="png")
+        file.name = "captcha.png"
+        file.seek(0)
+        img_src = base64.b64encode(file.read())
+        self.question_html = format(urllib.parse.quote(img_src))
 
     def verify_numbers(self, start_int, end_int):
         start_int, end_int = int(start_int), int(end_int)
